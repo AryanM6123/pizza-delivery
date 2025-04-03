@@ -42,8 +42,8 @@ This project is an online **Pizza Delivery System** that allows users to order p
 
 ### **Setup Steps:**  
 
-1️⃣ **Clone the repository:**  
-   ```bash
+1️⃣ Clone the repository  
+   
    git clone https://github.com/AryanM6123/pizza-delivery.git
    cd pizza-delivery
 2️⃣ Install dependencies:
