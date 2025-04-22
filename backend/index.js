@@ -10,10 +10,11 @@ connectDB();
 
 // CORS configuration
 app.use(cors({
-  origin: ['https://pizza-delivery-1-chwn.onrender.com'],
+  origin: ['http://localhost:3000', 'https://pizza-delivery-1-chwn.onrender.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
+
 
 app.use(express.json());
 
