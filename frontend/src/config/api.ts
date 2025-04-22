@@ -1,5 +1,5 @@
 // Base URL for all API calls
-export const API_BASE_URL = 'http://localhost:5001/api';
+export const API_BASE_URL = 'https://pizza-delivery-xgd1.onrender.com';
 
 // API endpoints
 export const API_ENDPOINTS = {
