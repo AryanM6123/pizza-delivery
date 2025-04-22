@@ -14,7 +14,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState(null);
 
   const login = async (email: string, password: string) => {
-    const response = await fetch('https://pizza-delivery-xgd1.onrender.com', {
+    const response = await fetch('https://pizza-delivery-xgd1.onrender.com/api/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const register = async (name: string, email: string, password: string) => {
-    const response = await fetch('https://pizza-delivery-xgd1.onrender.com', {
+    const response = await fetch('https://pizza-delivery-xgd1.onrender.com/api/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
