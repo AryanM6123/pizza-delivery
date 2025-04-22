@@ -27,7 +27,7 @@ const OrderStatus = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/orders', {
+      const response = await fetch('https://pizza-delivery-xgd1.onrender.com/api/orders', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
