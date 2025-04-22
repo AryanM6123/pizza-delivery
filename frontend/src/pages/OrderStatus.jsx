@@ -23,12 +23,11 @@ const OrderStatus = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        setError('Please login to view orders');
         navigate('/login');
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('http://localhost:5001/api/orders', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -36,20 +35,14 @@ const OrderStatus = () => {
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          navigate('/login');
-          throw new Error('Please login again');
-        }
         throw new Error('Failed to fetch orders');
       }
 
       const data = await response.json();
-      // Ensure orders is always an array
-      setOrders(Array.isArray(data) ? data : []);
-      setError(null);
+      setOrders(data);
     } catch (error) {
       console.error('Error fetching orders:', error);
-      setError(error.message || 'Failed to load orders');
+      setError('Failed to fetch orders');
     }
   };
 

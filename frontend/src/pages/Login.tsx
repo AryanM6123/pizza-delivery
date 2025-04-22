@@ -12,10 +12,13 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Add console.log to debug the request
+      console.log('Attempting login with:', { email, password });
       await login(email, password);
       navigate('/');
-    } catch (err) {
-      setError('Invalid email or password');
+    } catch (error) {
+      console.error('Login error:', error);
+      setError(error.message);
     }
   };
 

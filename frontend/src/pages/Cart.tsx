@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Cart = () => {
   const { user } = useAuth();
-  const { cart, getTotal, clearCart } = useCart();
+  const { cart, getTotal, updateQuantity, removeFromCart } = useCart();
   const navigate = useNavigate();
 
   const handleCheckout = async () => {
@@ -62,17 +62,17 @@ const Cart = () => {
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     <button
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
                       className="text-gray-500 hover:text-red-600"
                     >
-                      -
+                      <Minus size={20} />
                     </button>
                     <span>{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       className="text-gray-500 hover:text-red-600"
                     >
-                      +
+                      <Plus size={20} />
                     </button>
                   </div>
                   <span className="font-semibold">₹{(item.price * item.quantity).toFixed(2)}</span>
@@ -80,7 +80,7 @@ const Cart = () => {
                     onClick={() => removeFromCart(item.id)}
                     className="text-red-600 hover:text-red-700"
                   >
-                    Remove
+                    <Trash2 size={20} />
                   </button>
                 </div>
               </div>

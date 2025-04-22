@@ -9,6 +9,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const [address, setAddress] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(''); // Add error state
 
   // Add useEffect to check authentication
   useEffect(() => {
@@ -23,6 +24,7 @@ const Checkout = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
 
     try {
       const token = localStorage.getItem('token');
@@ -31,7 +33,7 @@ const Checkout = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('http://localhost:5001/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,38 +42,39 @@ const Checkout = () => {
         body: JSON.stringify({
           items: cart.map(item => ({
             name: item.name,
-            price: item.price,
-            quantity: item.quantity
+            quantity: item.quantity,
+            price: item.price
           })),
-          total: getTotal() * 1.18, // Include GST in the total
-          address: address,
-          userId: user._id
+          total: getTotal() * 1.18,
+          address
         })
       });
 
-      if (response.status === 401 || response.status === 403) {
-        localStorage.removeItem('token');
-        navigate('/login');
-        return;
-      }
-
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to place order');
+        throw new Error(data.message || 'Failed to create order');
       }
 
       clearCart();
       navigate('/orders');
     } catch (error) {
-      console.error('Error placing order:', error);
+      setError(error.message || 'Failed to place order');
+      console.error('Order error:', error);
     } finally {
       setLoading(false);
     }
   };
 
+  // Add error display in the return statement
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <h2 className="text-xl font-semibold mb-4">Delivery Details</h2>

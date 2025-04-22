@@ -8,8 +8,8 @@ const orderSchema = new mongoose.Schema({
   },
   items: [{
     name: String,
-    price: Number,
-    quantity: Number
+    quantity: Number,
+    price: Number
   }],
   total: {
     type: Number,
@@ -23,11 +23,7 @@ const orderSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'preparing', 'delivering', 'completed'],
     default: 'pending'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

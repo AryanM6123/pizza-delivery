@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, CheckCircle, Truck, Package } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPanel = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user?.isAdmin) {
+      navigate('/login');
+      return;
+    }
+    
     console.log('Fetching orders...');
     fetchOrders();
     const interval = setInterval(fetchOrders, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [user, navigate]);
 
   const fetchOrders = async () => {
     try {
       console.log('Making API request...');
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('http://localhost:5001/api/orders', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -41,15 +50,14 @@ const AdminPanel = () => {
   const updateOrderStatus = async (orderId, status) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const response = await fetch(`http://localhost:5001/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          orderId: orderId,
-          status: status.toLowerCase() // Convert status to lowercase to match server expectations
+          status: status.toLowerCase()
         })
       });
 
@@ -58,7 +66,7 @@ const AdminPanel = () => {
         throw new Error(errorData.message || 'Failed to update order status');
       }
 
-      await fetchOrders(); // Refresh orders after successful update
+      await fetchOrders();
     } catch (error) {
       console.error('Error updating order:', error);
     }
