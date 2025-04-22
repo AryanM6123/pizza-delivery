@@ -22,7 +22,7 @@ const AdminPanel = () => {
     try {
       const token = localStorage.getItem('token');
       console.log('Making API request...');
-      const response = await fetch('http://localhost:5001/api/orders', {
+      const response = await fetch('https://pizza-delivery-xgd1.onrender.com/api/orders', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const AdminPanel = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5001/api/orders/${orderId}/status`, {
+      const response = await fetch(`https://pizza-delivery-xgd1.onrender.com/api/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
