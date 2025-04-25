@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
-// ... interface definition ...
+// Define the props for the component
+interface PizzaProps {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
 
 const PizzaCard: React.FC<PizzaProps> = ({ id, name, description, price, image }) => {
   const { addToCart } = useCart();
@@ -14,7 +21,7 @@ const PizzaCard: React.FC<PizzaProps> = ({ id, name, description, price, image }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
       <img src={image} alt={name} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="text-xl font-semibold mb-2">{name}</h3>
