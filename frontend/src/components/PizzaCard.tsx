@@ -14,9 +14,16 @@ const PizzaCard: React.FC<PizzaProps> = ({ id, name, description, price, image }
   const [buttonText, setButtonText] = useState('Add to Cart');
 
   const handleClick = () => {
-    addToCart({ id, name, price, image, quantity: 1 }); // ✅ fixed
+    console.log(`Clicked Add to Cart for: ${name}`); // ✅ log click
+    addToCart({ id, name, price, image, quantity: 1 });
+
     setButtonText('Added!');
-    setTimeout(() => setButtonText('Add to Cart'), 1000);
+    console.log(`Button text changed to "Added!" for: ${name}`); // ✅ log text change
+
+    setTimeout(() => {
+      setButtonText('Add to Cart');
+      console.log(`Button text reset for: ${name}`); // ✅ log text reset
+    }, 1000);
   };
 
   return (
@@ -29,7 +36,7 @@ const PizzaCard: React.FC<PizzaProps> = ({ id, name, description, price, image }
           <span className="text-xl font-bold">₹{price.toFixed(2)}</span>
           <button
             onClick={handleClick}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors border border-black"
           >
             {buttonText}
           </button>
