@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
-// Define the props for the component
 interface PizzaProps {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;
@@ -15,7 +14,7 @@ const PizzaCard: React.FC<PizzaProps> = ({ id, name, description, price, image }
   const [buttonText, setButtonText] = useState('Add to Cart');
 
   const handleClick = () => {
-    addToCart({ id, name, price });
+    addToCart({ id, name, price, image, quantity: 1 }); // ✅ fixed
     setButtonText('Added!');
     setTimeout(() => setButtonText('Add to Cart'), 1000);
   };
